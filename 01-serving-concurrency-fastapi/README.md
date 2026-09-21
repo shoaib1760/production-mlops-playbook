@@ -74,29 +74,29 @@ async def predict(request: PredictRequest):
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Client1 as Client 1 (Req #1)
-    actor Client2 as Client 2 (Req #2)
-    participant Loop as Async Event Loop (Single Thread)
-    participant Pool as ThreadPoolExecutor (Workers: 1-4)
-    participant Model as model.predict() (CPU Math)
+    actor Client1 as Client 1 (Req 1)
+    actor Client2 as Client 2 (Req 2)
+    participant EventLoop as Async Event Loop (Main Thread)
+    participant Pool as ThreadPoolExecutor (Workers 1-4)
+    participant Model as model.predict (CPU Math)
 
-    Client1->>Loop: POST /predict
-    Note over Loop: Event loop stays UNBLOCKED!
-    Loop->>Pool: loop.run_in_executor(thread_pool, run_prediction)
+    Client1->>EventLoop: POST /predict
+    Note over EventLoop: Event loop stays UNBLOCKED!
+    EventLoop->>Pool: run_in_executor(thread_pool, run_prediction)
     Pool->>Model: Worker Thread 1 runs inference
     
-    Client2->>Loop: POST /predict (Arrives immediately after)
-    Note over Loop: Event loop receives it without delay!
-    Loop->>Pool: loop.run_in_executor(thread_pool, run_prediction)
+    Client2->>EventLoop: POST /predict (Concurrent Request)
+    Note over EventLoop: Event loop receives it without delay!
+    EventLoop->>Pool: run_in_executor(thread_pool, run_prediction)
     Pool->>Model: Worker Thread 2 runs inference in parallel
     
     Model-->>Pool: Worker 1 finishes
-    Pool-->>Loop: Notify completion
-    Loop-->>Client1: Return 200 OK + JSON Response
+    Pool-->>EventLoop: Notify completion
+    EventLoop-->>Client1: Return 200 OK + JSON Response
 
     Model-->>Pool: Worker 2 finishes
-    Pool-->>Loop: Notify completion
-    Loop-->>Client2: Return 200 OK + JSON Response
+    Pool-->>EventLoop: Notify completion
+    EventLoop-->>Client2: Return 200 OK + JSON Response
 ```
 
 ### Why Each Line Matters:
