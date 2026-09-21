@@ -81,7 +81,7 @@ cd production-mlops-playbook/01-serving-concurrency-fastapi
 
 ## 👨‍💻 Author
 
-- **Shoaib Abid** - [@shoaib1760](https://github.com/shoaib1760)
+- **Shoaib Abid(Senior AI/ML Engineer at Ibex)** - [@shoaib1760](https://github.com/shoaib1760)
 
 ---
 
