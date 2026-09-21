@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Scikit-learn / joblib / large artifacts (optional, un-comment if model.joblib should be tracked or excluded)
+# *.joblib
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
