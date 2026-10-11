@@ -1,0 +1,36 @@
+# =============================================================================
+# .dockerignore
+# PURPOSE: Prevent unnecessary files from being sent to the Docker daemon.
+#
+# WHY THIS MATTERS FOR MLOps:
+#   1. Faster build contexts (doesn't upload multi-gigabyte virtual environments).
+#   2. Prevents secret leakage (ignores local .env files).
+#   3. Keeps container images clean, secure, and minimal.
+# =============================================================================
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Git history & repository files
+.git/
+.gitignore
+
+# Docker config
+.dockerignore
+Dockerfile*
+
+# Documentation & IDE metadata
+*.md
+.vscode/
+.idea/
+.DS_Store

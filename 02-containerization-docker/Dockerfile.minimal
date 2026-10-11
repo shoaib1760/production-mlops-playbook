@@ -1,0 +1,33 @@
+# =============================================================================
+# STAGE 1: Minimal Dockerfile (The Mental Model)
+# =============================================================================
+# PURPOSE:
+#   This is the simplest functional Dockerfile to run your ML API.
+#   It introduces the 5 essential Docker directives every student must know:
+#     1. FROM        → Which base OS / runtime image to build upon
+#     2. WORKDIR     → The internal folder where our app will live
+#     3. COPY + RUN  → Installing dependencies using layer caching
+#     4. COPY        → Copying our source code & model artifact
+#     5. CMD         → The command that runs when the container starts
+# =============================================================================
+
+# 1. Base Image: lightweight Linux with Python 3.10
+FROM python:3.10-slim
+
+# 2. Set working directory inside the container
+WORKDIR /app
+
+# 3. Copy dependencies and install them
+#    (Notice: done BEFORE copying the rest of the code for layer caching!)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Copy application source code and model artifact
+COPY . .
+
+# 5. Expose port 8000 (documentation / metadata)
+EXPOSE 8000
+
+# 6. Default command to start server
+#    CRITICAL: host MUST be 0.0.0.0 (not 127.0.0.1) to accept traffic from outside!
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]

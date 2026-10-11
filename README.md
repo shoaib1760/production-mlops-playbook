@@ -19,7 +19,7 @@ Each lab in this playbook is self-contained with its own code, architecture diag
 | Lab | Topic | Focus Area | Status |
 | :---: | :--- | :--- | :---: |
 | **[01](./01-serving-concurrency-fastapi)** | **High-Throughput ML Serving & Concurrency** | Thread pool CPU isolation, async event loop starvation, P50/P95/P99 latency benchmarks under 100 concurrent requests |  **Completed** |
-| **02** | **Production Containerization with Docker** | Multi-stage Docker builds, non-root security, resource limits (CPU/Memory), and health checks | 🔨 *In Progress* |
+| **[02](./02-containerization-docker)** | **Production Containerization with Docker** | Minimal vs production Dockerfile, layer caching, non-root user security, resource limits, and health checks |  **Completed** |
 | **03** | **Experiment Tracking & Model Registry** | MLflow tracking server, parameter/metric logging, model staging, and lineage | 📅 *Planned* |
 | **04** | **Automated Pipeline Orchestration** | Data ingestion, validation, and reproducible training pipelines with Prefect | 📅 *Planned* |
 | **05** | **Production Monitoring & Data Drift** | Evidently AI, Prometheus metrics exporter, detecting feature distribution shift | 📅 *Planned* |
@@ -45,7 +45,14 @@ production-mlops-playbook/
 │   └── requirements.txt                       # Minimal lab dependencies
 │
 ├── 02-containerization-docker/                # 📍 Lab 02: Packaging & Docker
-│   └── ...
+│   ├── README.md                              # Complete student guide to Docker in MLOps
+│   ├── Dockerfile                             # Production Dockerfile (non-root, healthcheck, cache)
+│   ├── Dockerfile.minimal                     # Stage 1: Barebones 5-directive mental model
+│   ├── .dockerignore                          # Build context exclusion rules
+│   ├── app.py                                 # Serving API with thread pool concurrency
+│   ├── train_model.py                         # Model training script
+│   ├── test_container.py                      # Verification test against running container
+│   └── requirements.txt                       # Container dependencies
 │
 └── ...
 ```
@@ -60,7 +67,8 @@ To work through any of the labs in this repository, you should have the followin
 2. **Visual Studio Code**: Download from [code.visualstudio.com](https://code.visualstudio.com/).
    - Install the **Python** extension by Microsoft.
 3. **Git**: Download from [git-scm.com](https://git-scm.com/).
-4. **Docker Desktop** *(Needed starting from Lab 02)*: Download from [docker.com](https://www.docker.com/products/docker-desktop/).
+4. **Docker Desktop** *(Mandatory starting from Lab 02)*: Download from [docker.com](https://www.docker.com/products/docker-desktop/).
+   - **Why it's needed**: Linux containers require a Linux kernel. On Windows/macOS, Docker Desktop runs the background engine (daemon via WSL 2) needed to build images and run containers. **It must be open and running** before executing any `docker` commands in your terminal.
 
 ---
 
